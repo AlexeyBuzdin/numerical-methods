@@ -1,0 +1,24 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src/main/groovy'
+        }
+    }
+}
+
+dependencies {
+    compile (
+            "org.codehaus.groovy:groovy-all:2.2.1"
+    )
+    testCompile (
+            "org.spockframework:spock-core:0.2",
+            "junit:junit:4.6"
+    )
+}
