@@ -2,6 +2,6 @@ package utils
 
 interface DataInput {
 
-    double readNum() ;
+    double readNum(String variableName) ;
 
 }
