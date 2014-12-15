@@ -54,7 +54,15 @@ class MullerMethodTest extends Specification {
         given: Equation equation = { x -> pow(x, 2) + sin(x) }
         when: double result = method.solve(equation, input)
         then:
-            input.readNum(_) >>> [-2, -1, -0.5, TOLERANCE_VAL]
-            abs(-0.8767 - result) < TOLERANCE_VAL
+            input.readNum(_) >>> [0, 2.35, (3/2)*PI, TOLERANCE_VAL]
+            abs(4.712317 - result) < TOLERANCE_VAL
+    }
+
+    def "Y = x^2"() {
+        given: Equation equation = { x -> pow(x, 2) }
+        when: method.solve(equation, input)
+        then:
+        input.readNum(_) >>> [-3, 0, 3, TOLERANCE_VAL]
+        thrown ArithmeticException
     }
 }

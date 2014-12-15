@@ -22,17 +22,31 @@ class BisectionMethod implements NonlinearEquationMethod {
         if (xStart > xEnd) throw new IllegalArgumentException()
         double f_xEnd = eq.apply(xEnd)
         double f_xStart = eq.apply(xStart)
-        if (!differentSigns(f_xStart, f_xEnd))  throw new ArithmeticException()
+
+        if (f_xEnd == 0) {
+            printf ("Root %f is found with %d iterations\n", xEnd, 0)
+            return xEnd
+        }
+        if (f_xStart == 0) {
+            printf ("Root %f is found with %d iterations\n", xStart, 0)
+            return xStart
+        }
+
+        if (!differentSigns(f_xStart, f_xEnd))
+            throw new ArithmeticException()
 
         double xMid;
-        for (int i = 0; i < NMAX; i++) {
+        for (int i = 1; i <= NMAX; i++) {
             xMid = (xStart + xEnd) / 2
-            def tempResult = eq.apply(xMid)
-            def toleranceReached = (xEnd - xStart) / 2 < tolerance
-            if(tempResult == 0 || toleranceReached) return xMid;
+            double f_xMid = eq.apply(xMid)
+            double xDelta = (xEnd - xStart) / 2
+            if(f_xMid == 0 || xDelta < tolerance) {
+                printf ("Root %f is found with %d iterations\n", xMid, i)
+                return xMid
+            }
 
-            def startResult = eq.apply(xStart)
-            if(sign(tempResult) == sign(startResult)) {
+            f_xStart = eq.apply(xStart)
+            if(!differentSigns(f_xMid, f_xStart)) {
                 xStart = xMid
             } else {
                 xEnd = xMid

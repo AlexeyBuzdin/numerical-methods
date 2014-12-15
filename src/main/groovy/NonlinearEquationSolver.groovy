@@ -17,6 +17,10 @@ class NonlinearEquationSolver {
     }
 
     public String solve(Equation e) {
-        method.solve(e, input)
+        try {
+            method.solve(e, input)
+        } catch (ArithmeticException ignored) {
+            println("Failed to solve the Equation")
+        }
     }
 }

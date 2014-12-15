@@ -44,11 +44,27 @@ class BisectionMethodTest extends Specification {
             abs(PI - result) < TOLERANCE_VAL
     }
 
+    def "Y = x^2 * sin(x) _actual"() {
+        given: Equation equation = { x -> pow(x, 2) * sin(x) }
+        when: double result = method.solve(equation, input)
+        then:
+        input.readNum(_) >>> [0, PI, TOLERANCE_VAL]
+        abs(0 -result) < TOLERANCE_VAL
+    }
+
     def "Y = x^2 + sin(x)"() {
         given: Equation equation = { x -> pow(x, 2) + sin(x) }
         when: double result = method.solve(equation, input)
         then:
             input.readNum(_) >>> [-2, -0.5, TOLERANCE_VAL]
             abs(-0.8767 - result) < TOLERANCE_VAL
+    }
+
+    def "Y = x^2 + sin(x) _actual"() {
+        given: Equation equation = { x -> pow(x, 2) + sin(x) }
+        when: double result = method.solve(equation, input)
+        then:
+            input.readNum(_) >>> [0, (3/2)*PI, TOLERANCE_VAL]
+            abs(0 - result) < TOLERANCE_VAL
     }
 }

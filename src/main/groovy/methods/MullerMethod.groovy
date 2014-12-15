@@ -27,8 +27,8 @@ class MullerMethod implements NonlinearEquationMethod {
 
         double li, di
         for (int i = 1; i <= NMAX; i++) {
-            li = (x2 - x1) / (x1 - x0);
-            di = (x2 - x0) / (x1 - x0);
+            li = (x2 - x1) / (x1 - x0)
+            di = (x2 - x0) / (x1 - x0)
 
             def f_x0 = eq.apply(x0)
             def f_x1 = eq.apply(x1)
@@ -38,11 +38,11 @@ class MullerMethod implements NonlinearEquationMethod {
             double s = sqrt((pow(mu, 2) - 4 * f_x2 * di * li * (f_x0 * li - f_x1 * di + f_x2)));
             double l = (2 * f_x2 * di) / (-mu + (mu < 0 ? s : -s) )
 
-            root = x2 + l * (x2 - x1);
-            printf("At iteration no. %3d, root = %7.5f", i, root);
+            root = x2 + l * (x2 - x1)
 
             if (abs(root - x2) < tolerance) {
-                return root;
+                printf ("Root %f is found with %d iterations\n", root, i)
+                return root
             }
 
             x0 = x1
