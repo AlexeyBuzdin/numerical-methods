@@ -19,6 +19,11 @@ class BisectionMethod implements NonlinearEquationMethod {
         double xEnd = input.readNum(X_END)
         double tolerance = input.readNum(TOLERANCE);
 
+        if (xStart > xEnd) throw new IllegalArgumentException()
+        double f_xEnd = eq.apply(xEnd)
+        double f_xStart = eq.apply(xStart)
+        if (!differentSigns(f_xStart, f_xEnd))  throw new ArithmeticException()
+
         double xMid;
         for (int i = 0; i < NMAX; i++) {
             xMid = (xStart + xEnd) / 2

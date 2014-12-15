@@ -4,6 +4,7 @@ import equation.Equation
 import utils.DataInput
 
 import static java.lang.Math.abs
+import static java.lang.Math.pow
 import static java.lang.Math.sqrt
 
 class MullerMethod implements NonlinearEquationMethod {
@@ -22,10 +23,10 @@ class MullerMethod implements NonlinearEquationMethod {
         double x2 = input.readNum(X2)
         double tolerance = input.readNum(TOLERANCE)
 
-        double x
+        double root
 
-        double li, di, mu, s, l
-        for (int itr = 1; itr <= NMAX; itr++) {
+        double li, di
+        for (int i = 1; i <= NMAX; i++) {
             li = (x2 - x1) / (x1 - x0);
             di = (x2 - x0) / (x1 - x0);
 
@@ -33,24 +34,20 @@ class MullerMethod implements NonlinearEquationMethod {
             def f_x1 = eq.apply(x1)
             def f_x2 = eq.apply(x2)
 
-            mu = f_x0 * li * li - f_x1 * di * di + f_x2 * (di + li);
+            double mu = f_x0 * pow(li, 2) - f_x1 * pow(di, 2) + f_x2 * (di + li);
+            double s = sqrt((pow(mu, 2) - 4 * f_x2 * di * li * (f_x0 * li - f_x1 * di + f_x2)));
+            double l = (2 * f_x2 * di) / (-mu + (mu < 0 ? s : -s) )
 
-            s = sqrt((mu * mu - 4 * f_x2 * di * li * (f_x0 * li - f_x1 * di + f_x2)));
-            if (mu < 0) {
-                l = (2 * f_x2 * di) / (-mu + s);
-            } else {
-                l = (2 * f_x2 * di) / (-mu - s);
-            }
-            x = x2 + l * (x2 - x1);
-            printf("At iteration no. %3d, x = %7.5f\n", itr, x);
+            root = x2 + l * (x2 - x1);
+            printf("At iteration no. %3d, root = %7.5f", i, root);
 
-            if (abs(x - x2) < tolerance) {
-                return x;
+            if (abs(root - x2) < tolerance) {
+                return root;
             }
 
             x0 = x1
             x1 = x2
-            x2 = x
+            x2 = root
         }
 
         throw new ArithmeticException()

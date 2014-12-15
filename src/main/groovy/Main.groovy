@@ -1,9 +1,9 @@
 import methods.BisectionMethod
-import utils.Input
+import utils.ConsoleInput
 
 class Main {
 
     public static void main(String... args) {
-        new NonlinearEquationSolver(new Input(), new BisectionMethod());
+        def solver = NonlinearEquationSolver.create(new ConsoleInput(), new BisectionMethod());
     }
 }
